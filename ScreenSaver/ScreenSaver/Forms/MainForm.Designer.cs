@@ -28,19 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
-            timer = new System.Windows.Forms.Timer(components);
             SuspendLayout();
-            // 
-            // timer
-            // 
-            timer.Tick += Timer_Tick;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ActiveCaption;
+            BackColor = Color.Black;
             BackgroundImage = Properties.Resources.winterBackground;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1216, 810);
@@ -50,14 +44,11 @@
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";
-            TopMost = true;
             Paint += MainForm_Paint;
             KeyDown += MainForm_KeyDown;
             ResumeLayout(false);
         }
 
         #endregion
-
-        private System.Windows.Forms.Timer timer;
     }
 }

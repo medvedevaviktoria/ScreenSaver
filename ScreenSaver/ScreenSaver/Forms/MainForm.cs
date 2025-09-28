@@ -1,36 +1,58 @@
-
 using ScreenSaver.Classes;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
+using System;
 
 namespace ScreenSaver
 {
     public partial class MainForm : Form
     {
-        Point snowflakePoint;
-        Image snowflake;
-        int deltaY = 5;
-        Image scene;
+        const int SNOWFLAKESCOUNT = 150;
+        private Snowflake[] Snowflakes;
+        readonly Image snowflakeImage = Properties.Resources.snowFlake;
+        private readonly Random random = new Random();
+        System.Windows.Forms.Timer timer;
 
         public MainForm()
         {
             InitializeComponent();
-            snowflake = Properties.Resources.snowFlake;
-            snowflakePoint = new Point(0, 0);
-            timer.Interval = 50;
+
+            InitializeSnowflakes();
+            InitializeTimer();
+        }
+
+        private void InitializeSnowflakes()
+        {
+            Snowflakes = new Snowflake[SNOWFLAKESCOUNT];
+            for (int i = 0; i < SNOWFLAKESCOUNT; i++)
+            {
+                var x = random.Next(ClientSize.Width);
+                var y = random.Next(ClientSize.Height);
+                var size = random.Next(32, 64);
+                var speed = random.Next(1, 5);
+                Snowflakes[i] = new Snowflake(x, y, size, speed);
+            }
+        }
+
+        private void InitializeTimer()
+        {
+            timer = new System.Windows.Forms.Timer();
+            timer.Interval = 5;
+            timer.Tick += Timer_Tick;
             timer.Start();
-            DoubleBuffered = true;
         }
 
         private void Timer_Tick(object? sender, EventArgs e)
         {
-            snowflakePoint.Y += deltaY;
-            if (snowflakePoint.Y > ClientRectangle.Height)
-            {
-                snowflakePoint.X = 50;
-                snowflakePoint.Y = 0;
-            }
-            Invalidate();
 
+            foreach (var snowflake in Snowflakes)
+            {
+                snowflake.Y += snowflake.Speed;
+                if (snowflake.Y > ClientRectangle.Height)
+                {
+                    snowflake.X = random.Next(ClientSize.Width);
+                    snowflake.Y = -64;
+                }
+            }
+            Refresh();
         }
 
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
@@ -40,7 +62,10 @@ namespace ScreenSaver
 
         private void MainForm_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.DrawImage(snowflake, snowflakePoint.X, snowflakePoint.Y, 32,32 );
+            foreach (var snowflake in Snowflakes)
+            {
+                e.Graphics.DrawImage(snowflakeImage, snowflake.X, snowflake.Y, snowflake.Size, snowflake.Size);
+            }
         }
 
     }
