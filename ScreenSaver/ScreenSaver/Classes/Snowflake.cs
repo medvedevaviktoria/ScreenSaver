@@ -1,24 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ScreenSaver.Classes
+﻿namespace ScreenSaver.Classes
 {
     public class Snowflake
     {
-        public Snowflake(int x, int y, int size, int speed)
-        {
-            X = x;
-            Y = y;
-            Size = size;
-            Speed = speed;
-        }
-
-        public int X { get; set; }
-        public int Y { get; set; }
-        public int Size { get; set; }
-        public int Speed { get; set; }
+        public int X;
+        public int Y;
+        public int Size;
+        public int Speed;
     }
 }

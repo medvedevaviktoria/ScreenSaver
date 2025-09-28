@@ -35,17 +35,18 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
-            BackgroundImage = Properties.Resources.winterBackground;
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(1216, 810);
+            ClientSize = new Size(578, 376);
             FormBorderStyle = FormBorderStyle.None;
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";
+            WindowState = FormWindowState.Maximized;
             Paint += MainForm_Paint;
             KeyDown += MainForm_KeyDown;
+            Resize += MainForm_Resize;
             ResumeLayout(false);
         }
 
