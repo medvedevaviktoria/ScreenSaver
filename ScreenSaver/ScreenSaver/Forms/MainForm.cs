@@ -1,16 +1,16 @@
-using ScreenSaver.Classes;
+п»їusing ScreenSaver.Classes;
 
 namespace ScreenSaver
 {
     public partial class MainForm : Form
     {
         const int SNOWFLAKESCOUNT = 150;
-        private List<Snowflake> Snowflakes;
+        private List<Snowflake> Snowflakes = [];
         readonly Image snowflakeImage = Properties.Resources.snowFlake;
-        Image scene;
-        private readonly Image backgroundPic = Properties.Resources.winterBackground; 
+        private Image scene = new Bitmap(1, 1);
+        private readonly Image backgroundPic = Properties.Resources.winterBackground;
         private readonly Random random = new();
-        System.Windows.Forms.Timer timer;
+        private readonly System.Windows.Forms.Timer timer = new();
 
         public MainForm()
         {
@@ -18,12 +18,12 @@ namespace ScreenSaver
         }
 
         /// <summary>
-        /// Метод инициализирует список снежинок с случайными параметрами.
+        /// РњРµС‚РѕРґ РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚ СЃРїРёСЃРѕРє СЃРЅРµР¶РёРЅРѕРє СЃ СЃР»СѓС‡Р°Р№РЅС‹РјРё РїР°СЂР°РјРµС‚СЂР°РјРё.
         /// </summary>
         private void InitializeSnowflakes()
         {
             Snowflakes = [];
-            for (int i = 0; i < SNOWFLAKESCOUNT; i++)
+            for (var i = 0; i < SNOWFLAKESCOUNT; i++)
             {
                 Snowflakes.Add(new Snowflake
                 {
@@ -36,26 +36,21 @@ namespace ScreenSaver
         }
 
         /// <summary>
-        /// Метод настраивает и запускает таймер с интервалом 30 мс.
+        /// РњРµС‚РѕРґ РЅР°СЃС‚СЂР°РёРІР°РµС‚ Рё Р·Р°РїСѓСЃРєР°РµС‚ С‚Р°Р№РјРµСЂ СЃ РёРЅС‚РµСЂРІР°Р»РѕРј 30 РјСЃ.
         /// </summary>
         private void InitializeTimer()
         {
-            timer = new System.Windows.Forms.Timer
-            {
-                Interval = 30
-            };
+            timer.Interval = 30;
             timer.Tick += Timer_Tick;
             timer.Start();
         }
 
         /// <summary>
-        /// Обработчик события таймера, который обновляет позицию каждой снежинки. После обновления вызывается метод рисования для обновления изображения.
+        /// РћР±СЂР°Р±РѕС‚С‡РёРє СЃРѕР±С‹С‚РёСЏ С‚Р°Р№РјРµСЂР°, РєРѕС‚РѕСЂС‹Р№ РѕР±РЅРѕРІР»СЏРµС‚ РїРѕР·РёС†РёСЋ РєР°Р¶РґРѕР№ СЃРЅРµР¶РёРЅРєРё.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Timer_Tick(object? sender, EventArgs e)
         {
-            foreach (Snowflake snowflake in Snowflakes)
+            foreach (var snowflake in Snowflakes)
             {
                 snowflake.Y += snowflake.Speed;
                 if (snowflake.Y > ClientRectangle.Height)
@@ -68,37 +63,31 @@ namespace ScreenSaver
         }
 
         /// <summary>
-        /// Обработчик события нажатия клавиши на форме. Закрывает форму при любом нажатии клавиши.
+        /// РћР±СЂР°Р±РѕС‚С‡РёРє СЃРѕР±С‹С‚РёСЏ РЅР°Р¶Р°С‚РёСЏ РєР»Р°РІРёС€Рё РЅР° С„РѕСЂРјРµ.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
             Close();
         }
 
         /// <summary>
-        /// Обработчик события перерисовки формы. Рисует фоновое изображение и поверх него все снежинки.
+        /// РћР±СЂР°Р±РѕС‚С‡РёРє СЃРѕР±С‹С‚РёСЏ РїРµСЂРµСЂРёСЃРѕРІРєРё С„РѕСЂРјС‹.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void MainForm_Paint(object sender, PaintEventArgs e)
         {
             var bg = Graphics.FromImage(scene);
             bg.DrawImage(backgroundPic, 0, 0, Width, Height);
-            foreach (Snowflake snowflake in Snowflakes)
+            foreach (var snowflake in Snowflakes)
             {
                 bg.DrawImage(snowflakeImage, snowflake.X, snowflake.Y, snowflake.Size, snowflake.Size);
             }
-            e.Graphics.DrawImage(scene, 0,0 );
+            e.Graphics.DrawImage(scene, 0, 0);
         }
 
         /// <summary>
-        /// Обработчик изменения размера окна. 
+        /// РћР±СЂР°Р±РѕС‚С‡РёРє СЃРѕР±С‹С‚РёСЏ Р·Р°РіСЂСѓР·РєРё С„РѕСЂРјС‹.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MainForm_Resize(object sender, EventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)
         {
             scene = new Bitmap(ClientSize.Width, ClientSize.Height);
             InitializeSnowflakes();

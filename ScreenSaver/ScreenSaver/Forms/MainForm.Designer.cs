@@ -44,9 +44,9 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";
             WindowState = FormWindowState.Maximized;
+            Load += MainForm_Load;
             Paint += MainForm_Paint;
             KeyDown += MainForm_KeyDown;
-            Resize += MainForm_Resize;
             ResumeLayout(false);
         }
 
